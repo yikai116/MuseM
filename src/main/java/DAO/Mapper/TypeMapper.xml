@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper  namespace="DAO.Mapper.TypeMapper">
+    <insert id="insert" parameterType="Type" useGeneratedKeys="true" keyColumn="user,type" >
+        INSERT INTO type(user, type) VALUES (#{user},#{type})
+    </insert>
+
+    <delete id="delete" parameterType="Type">
+        delete from type where user = #{user} and type=#{type}
+    </delete>
+
+    <select id="getType" parameterType="String" resultType="Type">
+        select * from type where user = #{user}
+    </select>
+
+    <select id="isExist" parameterType="Type" resultType="int">
+        select count(*) from type where user = #{user} and type=#{type}
+    </select>
+
+</mapper>

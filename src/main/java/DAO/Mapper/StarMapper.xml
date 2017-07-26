@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DAO.Mapper.StarMapper">
+    <insert id="insert" parameterType="String">
+        INSERT INTO star(host, friend)
+        VALUES (#{0},#{1})
+    </insert>
+
+    <delete id="delete" parameterType="String">
+        DELETE
+        FROM star
+        WHERE host = #{0} AND friend = #{1}
+    </delete>
+
+    <select id="find" parameterType="String" resultType="int">
+        SELECT count(*)
+        FROM star
+        WHERE host = #{0} AND friend = #{1}
+    </select>
+</mapper>
