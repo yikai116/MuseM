@@ -36,6 +36,11 @@ public class ArticleController {
     @Autowired
     private TypeMapper typeMapper;
 
+    /**
+     * 通过id得到文章详细信息
+     * @param id 用户传入的数据
+     * @return 响应
+     */
     @ResponseBody
     @RequestMapping(value = "/getArt", method = RequestMethod.POST)
     public Response getArticleById(int id) {
@@ -53,6 +58,11 @@ public class ArticleController {
         }
     }
 
+    /**
+     * 根据id删除文章
+     * @param id 用户传入的数据
+     * @return 响应
+     */
     @ResponseBody
     @RequestMapping(value = "/deleteArt", method = RequestMethod.POST)
     public Response deleteArticle(int id) {
@@ -69,6 +79,11 @@ public class ArticleController {
         }
     }
 
+    /**
+     * 更新文章内容
+     * @param a 用户传入的数据
+     * @return 响应
+     */
     @ResponseBody
     @RequestMapping(value = "/updateArt", method = RequestMethod.POST)
     public Response updateArticle(@RequestBody Article a) {
@@ -122,13 +137,9 @@ public class ArticleController {
     public Response getMyArt() {
         try {
             String email = String.valueOf(request.getAttribute("email"));
-            List<Article> arts = articleMapper.getArticlesByEmail(email);
-            for (Article art : arts) {
-                int lenth = art.getArtContent().length();
-                lenth = lenth > 50 ? 50 : lenth;
-                art.setArtContent(art.getArtContent().substring(0, lenth));
-            }
-            return new Response<List<Article>>(new Error(1, "获得成功"), arts);
+            return new Response<List<Article>>(
+                    new Error(1, "获得成功"),
+                    getArtHelp(email));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseHelper.SYSTEM_ERROR;
@@ -148,14 +159,28 @@ public class ArticleController {
             if (user == null){
                 return ResponseHelper.NO_USER_ERROR;
             }
-            List<Article> arts = articleMapper.getArticlesByEmail(email);
-            for (Article art : arts) {
-                int lenth = art.getArtContent().length();
-                lenth = lenth > 50 ? 50 : lenth;
-                art.setArtContent(art.getArtContent().substring(0, lenth));
-            }
-            return new Response<List<Article>>(new Error(1, "获得成功"), arts);
+            return new Response<List<Article>>(
+                    new Error(1, "获得成功"),
+                    getArtHelp(email));
         } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseHelper.SYSTEM_ERROR;
+        }
+    }
+
+    /**
+     * 得到当前用户文章列表信息
+     * @return 响应
+     */
+    @RequestMapping(value = "/getMyArtList", method = RequestMethod.POST)
+    public Response getMyArtList() {
+        try {
+            String email = String.valueOf(request.getAttribute("email"));
+            return new Response< List<TypeArt>>(
+                    new Error(1,"获取成功"),
+                    getListHelp(email));
+        }
+        catch (Exception e){
             e.printStackTrace();
             return ResponseHelper.SYSTEM_ERROR;
         }
@@ -173,61 +198,9 @@ public class ArticleController {
             if (user == null){
                 return ResponseHelper.NO_USER_ERROR;
             }
-            List<TypeArt> data = new ArrayList<TypeArt>();
-            List<Type> types = typeMapper.getType(email);
-            for (Type type : types) {
-                List<SimArt> simArts = new ArrayList<SimArt>();
-                List<Article> articles = articleMapper.getArticlesByEmailType(email,type.getType());
-                for (int i = 0; i < articles.size(); i++){
-                    SimArt simArt = new SimArt();
-                    simArt.setArtId(articles.get(i).getArtId());
-                    simArt.setArtTitle(articles.get(i).getArtTitle());
-                    simArts.add(simArt);
-                }
-                TypeArt typeArt = new TypeArt();
-                typeArt.setType(type.getType());
-                typeArt.setCount(articles.size());
-                typeArt.setArts(simArts);
-                data.add(typeArt);
-            }
             return new Response< List<TypeArt>>(
                     new Error(1,"获取成功"),
-                    data);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            return ResponseHelper.SYSTEM_ERROR;
-        }
-    }
-
-    /**
-     * 得到当前用户文章列表信息
-     * @return 响应
-     */
-    @RequestMapping(value = "/getMyArtList", method = RequestMethod.POST)
-    public Response getMyArtList() {
-        try {
-            String email = String.valueOf(request.getAttribute("email"));
-            List<TypeArt> data = new ArrayList<TypeArt>();
-            List<Type> types = typeMapper.getType(email);
-            for (Type type : types) {
-                List<SimArt> simArts = new ArrayList<SimArt>();
-                List<Article> articles = articleMapper.getArticlesByEmailType(email,type.getType());
-                for (int i = 0; i < articles.size(); i++){
-                    SimArt simArt = new SimArt();
-                    simArt.setArtId(articles.get(i).getArtId());
-                    simArt.setArtTitle(articles.get(i).getArtTitle());
-                    simArts.add(simArt);
-                }
-                TypeArt typeArt = new TypeArt();
-                typeArt.setType(type.getType());
-                typeArt.setCount(articles.size());
-                typeArt.setArts(simArts);
-                data.add(typeArt);
-            }
-            return new Response< List<TypeArt>>(
-                    new Error(1,"获取成功"),
-                    data);
+                    getListHelp(email));
         }
         catch (Exception e){
             e.printStackTrace();
@@ -242,38 +215,10 @@ public class ArticleController {
     @RequestMapping(value = "/getMyTimeList", method = RequestMethod.POST)
     public Response getMyTimeList() {
         try {
-            List<YearArt> data = new ArrayList<YearArt>();
             String email = String.valueOf(request.getAttribute("email"));
-            List<Article> articles = articleMapper.getArticlesByEmail(email);
-            List<Integer> years = new ArrayList<Integer>();
-            for (Article article : articles){
-                if (!years.contains(article.getCreateDate().getYear() + 1900)){
-                    years.add(article.getCreateDate().getYear() + 1900);
-                }
-            }
-            for (int i = 0; i < years.size(); i++){
-                YearArt yearArt = new YearArt();
-                yearArt.setYear(years.get(i));
-                List<TimeArt> timeArts = new ArrayList<TimeArt>();
-                for (Article article : articles){
-                    if (years.get(i) == (article.getCreateDate().getYear() + 1900)){
-                        TimeArt timeArt = new TimeArt();
-                        timeArt.setArtId(article.getArtId());
-                        timeArt.setArtTitle(article.getArtTitle());
-                        timeArt.setTime(article.getCreateDate());
-                        int lenth = article.getArtContent().length();
-                        lenth = lenth > 50 ? 50 : lenth;
-                        timeArt.setArtContent(article.getArtContent().substring(0, lenth));
-                        timeArts.add(timeArt);
-                    }
-                }
-                yearArt.setArts(timeArts);
-                yearArt.setCount(timeArts.size());
-                data.add(yearArt);
-            }
             return new Response< List<YearArt>>(
                     new Error(1,"获取成功"),
-                    data);
+                    getYearHelp(email));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseHelper.SYSTEM_ERROR;
@@ -287,40 +232,79 @@ public class ArticleController {
     @RequestMapping(value = "/getTimeListByEmail", method = RequestMethod.POST)
     public Response getTimeListByEmail(String email) {
         try {
-            List<YearArt> data = new ArrayList<YearArt>();
-            List<Article> articles = articleMapper.getArticlesByEmail(email);
-            List<Integer> years = new ArrayList<Integer>();
-            for (Article article : articles){
-                if (!years.contains(article.getCreateDate().getYear() + 1900)){
-                    years.add(article.getCreateDate().getYear() + 1900);
-                }
-            }
-            for (int i = 0; i < years.size(); i++){
-                YearArt yearArt = new YearArt();
-                yearArt.setYear(years.get(i));
-                List<TimeArt> timeArts = new ArrayList<TimeArt>();
-                for (Article article : articles){
-                    if (years.get(i) == (article.getCreateDate().getYear() + 1900)){
-                        TimeArt timeArt = new TimeArt();
-                        timeArt.setArtId(article.getArtId());
-                        timeArt.setArtTitle(article.getArtTitle());
-                        timeArt.setTime(article.getCreateDate());
-                        int lenth = article.getArtContent().length();
-                        lenth = lenth > 50 ? 50 : lenth;
-                        timeArt.setArtContent(article.getArtContent().substring(0, lenth));
-                        timeArts.add(timeArt);
-                    }
-                }
-                yearArt.setArts(timeArts);
-                yearArt.setCount(timeArts.size());
-                data.add(yearArt);
+            User user = userMapper.findByEmail(email);
+            if (user == null){
+                return ResponseHelper.NO_USER_ERROR;
             }
             return new Response< List<YearArt>>(
                     new Error(1,"获取成功"),
-                    data);
+                    getYearHelp(email));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseHelper.SYSTEM_ERROR;
         }
+    }
+
+    private List<Article> getArtHelp(String email){
+        List<Article> arts = articleMapper.getArticlesByEmail(email);
+        for (Article art : arts) {
+            int lenth = art.getArtContent().length();
+            lenth = lenth > 50 ? 50 : lenth;
+            art.setArtContent(art.getArtContent().substring(0, lenth));
+        }
+        return arts;
+    }
+
+    private List<TypeArt> getListHelp(String email){
+        List<TypeArt> data = new ArrayList<TypeArt>();
+        List<Type> types = typeMapper.getType(email);
+        for (Type type : types) {
+            List<SimArt> simArts = new ArrayList<SimArt>();
+            List<Article> articles = articleMapper.getArticlesByEmailType(email,type.getType());
+            for (int i = 0; i < articles.size(); i++){
+                SimArt simArt = new SimArt();
+                simArt.setArtId(articles.get(i).getArtId());
+                simArt.setArtTitle(articles.get(i).getArtTitle());
+                simArts.add(simArt);
+            }
+            TypeArt typeArt = new TypeArt();
+            typeArt.setType(type.getType());
+            typeArt.setCount(articles.size());
+            typeArt.setArts(simArts);
+            data.add(typeArt);
+        }
+        return data;
+    }
+
+    private List<YearArt> getYearHelp(String email){
+        List<YearArt> data = new ArrayList<YearArt>();
+        List<Article> articles = articleMapper.getArticlesByEmail(email);
+        List<Integer> years = new ArrayList<Integer>();
+        for (Article article : articles){
+            if (!years.contains(article.getCreateDate().getYear() + 1900)){
+                years.add(article.getCreateDate().getYear() + 1900);
+            }
+        }
+        for (int i = 0; i < years.size(); i++){
+            YearArt yearArt = new YearArt();
+            yearArt.setYear(years.get(i));
+            List<TimeArt> timeArts = new ArrayList<TimeArt>();
+            for (Article article : articles){
+                if (years.get(i) == (article.getCreateDate().getYear() + 1900)){
+                    TimeArt timeArt = new TimeArt();
+                    timeArt.setArtId(article.getArtId());
+                    timeArt.setArtTitle(article.getArtTitle());
+                    timeArt.setTime(article.getCreateDate());
+                    int lenth = article.getArtContent().length();
+                    lenth = lenth > 50 ? 50 : lenth;
+                    timeArt.setArtContent(article.getArtContent().substring(0, lenth));
+                    timeArts.add(timeArt);
+                }
+            }
+            yearArt.setArts(timeArts);
+            yearArt.setCount(timeArts.size());
+            data.add(yearArt);
+        }
+        return data;
     }
 }

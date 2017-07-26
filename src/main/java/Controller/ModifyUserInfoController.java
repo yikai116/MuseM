@@ -42,9 +42,9 @@ public class ModifyUserInfoController {
     @RequestMapping(value = "/modifyUserInfo",method = RequestMethod.POST)
     public Response modifyUserInfo(@RequestBody UserModifyInfo info){
         try{
-            String userEmail = String.valueOf(request.getAttribute("email"));
-            System.out.println(userEmail);
-            User user1 = userMapper.findByEmail(userEmail);
+            String email = String.valueOf(request.getAttribute("email"));
+            System.out.println(email);
+            User user1 = userMapper.findByEmail(email);
             if (user1.getPassword().equals(MD5Util.md5Encode(info.getOldPassword()))){
                 user1.setUserName(info.getUserName());
                 user1.setPassword(MD5Util.md5Encode(info.getNewPassword()));
@@ -52,16 +52,10 @@ public class ModifyUserInfoController {
                 user1.setIntro(info.getIntro());
                 user1.setMale(info.isIsMale());
                 userMapper.updateInfo(user1);
-                //修改之后的用户信息
-                UserInfo res_info = new UserInfo();
-                res_info.setUserName(user1.getUserName());
-                res_info.setAvatar(user1.getAvatar());
-                res_info.setIntro(user1.getIntro());
-                res_info.setIsMale(user1.isMale()?"男":"女");
-                res_info.setArtNum(articleMapper.getArtNum(userEmail));
-                res_info.setTypeNum(typeMapper.getTypeNum(userEmail));
-                res_info.setStars(starMapper.getStars(userEmail));
-                return new Response<UserInfo>(new Error(1,"修改成功"),res_info);
+
+                return new Response<UserInfo>(
+                        new Error(1,"修改成功"),
+                        getInfoHelp(email));
             }
             else {
                 return ResponseHelper.PSW_ERROR;
@@ -85,15 +79,9 @@ public class ModifyUserInfoController {
             if (user == null) {
                 return ResponseHelper.NO_USER_ERROR;
             }
-            UserInfo info = new UserInfo();
-            info.setUserName(user.getUserName());
-            info.setAvatar(user.getAvatar());
-            info.setIntro(user.getIntro());
-            info.setIsMale(user.isMale()?"男":"女");
-            info.setArtNum(articleMapper.getArtNum(email));
-            info.setTypeNum(typeMapper.getTypeNum(email));
-            info.setStars(starMapper.getStars(email));
-            return new Response<UserInfo>(new Error(1, "获取成功"), info);
+            return new Response<UserInfo>(
+                    new Error(1, "获取成功"),
+                    getInfoHelp(email));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseHelper.SYSTEM_ERROR;
@@ -108,22 +96,25 @@ public class ModifyUserInfoController {
     public Response getMyInfo() {
         try {
             String email = String.valueOf(request.getAttribute("email"));
-            User user = userMapper.findByEmail(email);
-            if (user == null) {
-                return ResponseHelper.NO_USER_ERROR;
-            }
-            UserInfo info = new UserInfo();
-            info.setUserName(user.getUserName());
-            info.setAvatar(user.getAvatar());
-            info.setIntro(user.getIntro());
-            info.setIsMale(user.isMale()?"男":"女");
-            info.setArtNum(articleMapper.getArtNum(email));
-            info.setTypeNum(typeMapper.getTypeNum(email));
-            info.setStars(starMapper.getStars(email));
-            return new Response<UserInfo>(new Error(1, "获取成功"), info);
+            return new Response<UserInfo>(
+                    new Error(1, "获取成功"),
+                    getInfoHelp(email));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseHelper.SYSTEM_ERROR;
         }
+    }
+
+    private UserInfo getInfoHelp(String email){
+        User user = userMapper.findByEmail(email);
+        UserInfo info = new UserInfo();
+        info.setUserName(user.getUserName());
+        info.setAvatar(user.getAvatar());
+        info.setIntro(user.getIntro());
+        info.setIsMale(user.isMale()?"男":"女");
+        info.setArtNum(articleMapper.getArtNum(email));
+        info.setTypeNum(typeMapper.getTypeNum(email));
+        info.setStars(starMapper.getStars(email));
+        return info;
     }
 }

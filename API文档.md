@@ -28,7 +28,7 @@ POST	http://localhost:8080/MuseM/api/signUp
 
 ```json
 {
-	"userName" : "name",
+    "userName" : "name",
     "email" : "xxx@xx.com",
     "password" : "123456",
     "intro" : "我真他妈的聪明",
@@ -97,7 +97,7 @@ POST	http://localhost:8080/MuseM/api/set/modifyUserInfo
 
 ```json
 {
-	"userName" : "名字",
+    "userName" : "名字",
     "oldPassword" : "123456",
     "newPassword" : "123456",
     "avatar" : "png",
@@ -129,7 +129,7 @@ POST	http://localhost:8080/MuseM/api/set/modifyUserInfo
 }
 ```
 
-##### 2.2根据email得到信息
+##### 2.2 根据email得到信息
 
 API：
 
@@ -141,7 +141,7 @@ POST	http://localhost:8080/MuseM/api/set/getUserInfo
 
 ```json
 {
-  	"email":"xxx@xx.com"
+    "email":"xxx@xx.com"
 }
 ```
 
@@ -219,7 +219,7 @@ POST	http://localhost:8080/MuseM/api/set/Star/star
 
 ```json
 {
-  	"friendEmail":"xxxx@xx.com"
+    "friendEmail":"xxxx@xx.com"
 }
 ```
 
@@ -247,7 +247,7 @@ POST	http://localhost:8080/MuseM/api/set/Star/unstar
 
 ```json
 {
-  	"friendEmail":"xxxx@xx.com"
+    "friendEmail":"xxxx@xx.com"
 }
 ```
 
@@ -275,7 +275,7 @@ POST	http://localhost:8080/MuseM/api/set/Star/isStar
 
 ```json
 {
-  	"friendEmail":"xxxx@xx.com"
+    "friendEmail":"xxxx@xx.com"
 }
 ```
 
@@ -305,7 +305,7 @@ POST	http://localhost:8080/MuseM/api/set/Type/addType
 
 ```json
 {
-  	"type":"个人日志"
+    "type":"个人日志"
 }
 ```
 
@@ -336,7 +336,7 @@ POST	http://localhost:8080/MuseM/api/set/Type/deleteType
 
 ```json
 {
-  	"type":"个人日志"
+    "type":"个人日志"
 }
 ```
 
@@ -367,7 +367,7 @@ POST	http://localhost:8080/MuseM/api/set/Type/getAllByEmail
 
 ```json
 {
-  	"email":"xxx@xx.com"
+    "email":"xxx@xx.com"
 }
 ```
 
@@ -435,7 +435,7 @@ POST	http://localhost:8080/MuseM/api/set/Article/getArt
 
 ```json
 {
-  	"id":"1002"
+    "id":"1002"
 }
 ```
 
@@ -471,7 +471,7 @@ POST	http://localhost:8080/MuseM/api/set/Article/deleteArt
 
 ```json
 {
-  	"id":"1001"
+    "id":"1001"
 }
 ```
 
@@ -507,9 +507,9 @@ POST	http://localhost:8080/MuseM/api/set/Article/insertArt
 
 ```json
 {
-	"artTitle" : "我是测试",
-	"artContent" : "我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试",
-	"artType" : "个人日志"
+    "artTitle" : "我是测试",
+    "artContent" : "我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试",
+    "artType" : "个人日志"
 }
 ```
 
@@ -545,7 +545,7 @@ POST	http://localhost:8080/MuseM/api/set/Article/updateArt
 
 ```json
 {
-	"artId": 1002,
+    "artId": 1002,
     "artTitle": "我是试",
     "artContent": "我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试",
     "artType": "个人日志"
@@ -638,7 +638,7 @@ POST	http://localhost:8080/MuseM/api/set/Article/getArtsByEmail
 
 ```json
 {
-  	"email":"xxx@xx.com"
+    "email":"xxx@xx.com"
 }
 ```
 
@@ -744,7 +744,7 @@ POST	http://localhost:8080/MuseM/api/set/Article/getArtsByEmail
 
 ```json
 {
-  	"email":"xxx@xx.com"
+    "email":"xxx@xx.com"
 }
 ```
 
@@ -847,7 +847,7 @@ POST	http://localhost:8080/MuseM/api/set/Article/getMyTimeList
 }
 ```
 
-##### 5.8 根据用户email得到用户文章时间轴列表
+##### 5.10 根据用户email得到用户文章时间轴列表
 
 API：
 
@@ -859,7 +859,7 @@ POST	http://localhost:8080/MuseM/api/set/Article/getTimeListByEmail
 
 ```json
 {
-  	"email":"xxx@xx.com"
+    "email":"xxx@xx.com"
 }
 ```
 
@@ -912,10 +912,6 @@ POST	http://localhost:8080/MuseM/api/set/Article/getTimeListByEmail
 }
 ```
 
-#### 
-
-#### 
-
 #### 6.评论模块
 
 ##### 6.1 得到文章评论
@@ -930,7 +926,7 @@ POST	http://localhost:8080/MuseM/api/set/Comment/getAllComment
 
 ```json
 {
-  	"artId":1002
+    "artId":1002
 }
 ```
 
@@ -983,7 +979,7 @@ POST	http://localhost:8080/MuseM/api/set/Comment/addComment
 
 ```json
 {
-	"artId" : 1002,
+    "artId" : 1002,
     "cmtContent" : "测试评论"
 }
 ```
@@ -1018,7 +1014,7 @@ POST	http://localhost:8080/MuseM/api/set/Comment/deleteComment
 
 ```json
 {
-  	"cmtId":1001
+    "cmtId":1001
 }
 ```
 
