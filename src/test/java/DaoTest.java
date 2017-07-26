@@ -18,15 +18,17 @@ import java.util.List;
 public class DaoTest {
 
     @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
 
     @Autowired
-    ArticleMapper articleMapper;
+    private ArticleMapper articleMapper;
     @Test
     public void name() throws Exception {
 
         List<Article> a = articleMapper.getArticlesByEmail("xxx@xx.com");
-        System.out.println(a.size());
+        for (Article article : a){
+            System.out.println(article.getCreateDate().getYear());
+        }
 //        System.out.println(a.getArtId());
 //        System.out.println(a.getArtContent());
     }

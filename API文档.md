@@ -97,10 +97,10 @@ POST	http://localhost:8080/MuseM/api/set/modifyUserInfo
 
 ```json
 {
-  	"userName" : "名字",
+	"userName" : "名字",
     "oldPassword" : "123456",
-    "newPassword" : "654321",
-    "avatar" : "jpg",
+    "newPassword" : "123456",
+    "avatar" : "png",
     "intro" : "一只小老虎",
     "isMale" : true
 }
@@ -116,14 +116,20 @@ POST	http://localhost:8080/MuseM/api/set/modifyUserInfo
     },
     "data": {
         "userName": "名字",
-        "avatar": "jpg",
+        "avatar": "png",
         "intro": "一只小老虎",
-        "isMale": true
+        "isMale": "男",
+        "artNum": 3,
+        "typeNum": 2,
+        "stars": [
+            "个人日志",
+            "技术博客"
+        ]
     }
 }
 ```
 
-##### 2.1 得到信息
+##### 2.2根据email得到信息
 
 API：
 
@@ -149,9 +155,52 @@ POST	http://localhost:8080/MuseM/api/set/getUserInfo
     },
     "data": {
         "userName": "名字",
-        "avatar": "jpg",
+        "avatar": "png",
         "intro": "一只小老虎",
-        "isMale": true
+        "isMale": "男",
+        "artNum": 3,
+        "typeNum": 2,
+        "stars": [
+            "个人日志",
+            "技术博客"
+        ]
+    }
+}
+```
+
+##### 2.3 得到当前用户信息
+
+API：
+
+```
+POST	http://localhost:8080/MuseM/api/set/getUserInfo
+```
+
+传入数据示例（直接传入数据）：
+
+```json
+不传参
+```
+
+返回数据示例：
+
+```json
+{
+    "error": {
+        "code": 1,
+        "message": "获取成功"
+    },
+    "data": {
+        "userName": "名字",
+        "avatar": "png",
+        "intro": "一只小老虎",
+        "isMale": "男",
+        "artNum": 3,
+        "typeNum": 2,
+        "stars": [
+            "个人日志",
+            "技术博客"
+        ]
     }
 }
 ```
@@ -632,6 +681,240 @@ POST	http://localhost:8080/MuseM/api/set/Article/getArtsByEmail
     ]
 }
 ```
+
+##### 5.7 得到当前用户文章列表
+
+API：
+
+```
+POST	http://localhost:8080/MuseM/api/set/Article/getMyArtList
+```
+
+传入数据示例：
+
+```json
+不传参
+```
+
+返回结果示例（返回文章Id)：
+
+```json
+{
+    "error": {
+        "code": 1,
+        "message": "获取成功"
+    },
+    "data": [
+        {
+            "type": "个人日志",
+            "count": 3,
+            "arts": [
+                {
+                    "artId": 1002,
+                    "artTitle": "我是试"
+                },
+                {
+                    "artId": 1003,
+                    "artTitle": "我是测试"
+                },
+                {
+                    "artId": 1004,
+                    "artTitle": "我是测试"
+                }
+            ]
+        },
+        {
+            "type": "技术博客",
+            "count": 0,
+            "arts": []
+        }
+    ]
+}
+```
+
+##### 5.8 根据用户email得到用户文章列表
+
+API：
+
+```
+POST	http://localhost:8080/MuseM/api/set/Article/getArtsByEmail
+```
+
+传入数据示例：
+
+```json
+{
+  	"email":"xxx@xx.com"
+}
+```
+
+返回结果示例（返回文章Id)：
+
+```json
+{
+    "error": {
+        "code": 1,
+        "message": "获取成功"
+    },
+    "data": [
+        {
+            "type": "个人日志",
+            "count": 3,
+            "arts": [
+                {
+                    "artId": 1002,
+                    "artTitle": "我是试"
+                },
+                {
+                    "artId": 1003,
+                    "artTitle": "我是测试"
+                },
+                {
+                    "artId": 1004,
+                    "artTitle": "我是测试"
+                }
+            ]
+        },
+        {
+            "type": "技术博客",
+            "count": 0,
+            "arts": []
+        }
+    ]
+}
+```
+
+##### 5.9 得到当前用户文章时间轴列表
+
+API：
+
+```
+POST	http://localhost:8080/MuseM/api/set/Article/getMyTimeList
+```
+
+传入数据示例：
+
+```json
+不传参
+```
+
+返回结果示例（返回文章Id)：
+
+```json
+{
+    "error": {
+        "code": 1,
+        "message": "获取成功"
+    },
+    "data": [
+        {
+            "year": 2017,
+            "count": 3,
+            "arts": [
+                {
+                    "artId": 1002,
+                    "artTitle": "我是试",
+                    "time": "2017-07-26",
+                    "artContent": "我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是"
+                },
+                {
+                    "artId": 1003,
+                    "artTitle": "我是测试",
+                    "time": "2017-07-26",
+                    "artContent": "我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是"
+                },
+                {
+                    "artId": 1004,
+                    "artTitle": "我是测试",
+                    "time": "2017-07-26",
+                    "artContent": "我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是"
+                }
+            ]
+        },
+        {
+            "year": 2016,
+            "count": 1,
+            "arts": [
+                {
+                    "artId": 1011,
+                    "artTitle": "我是测试",
+                    "time": "2016-07-26",
+                    "artContent": "我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是"
+                }
+            ]
+        }
+    ]
+}
+```
+
+##### 5.8 根据用户email得到用户文章时间轴列表
+
+API：
+
+```
+POST	http://localhost:8080/MuseM/api/set/Article/getTimeListByEmail
+```
+
+传入数据示例：
+
+```json
+{
+  	"email":"xxx@xx.com"
+}
+```
+
+返回结果示例（返回文章Id)：
+
+```json
+{
+    "error": {
+        "code": 1,
+        "message": "获取成功"
+    },
+    "data": [
+        {
+            "year": 2017,
+            "count": 3,
+            "arts": [
+                {
+                    "artId": 1002,
+                    "artTitle": "我是试",
+                    "time": "2017-07-26",
+                    "artContent": "我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是"
+                },
+                {
+                    "artId": 1003,
+                    "artTitle": "我是测试",
+                    "time": "2017-07-26",
+                    "artContent": "我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是"
+                },
+                {
+                    "artId": 1004,
+                    "artTitle": "我是测试",
+                    "time": "2017-07-26",
+                    "artContent": "我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是"
+                }
+            ]
+        },
+        {
+            "year": 2016,
+            "count": 1,
+            "arts": [
+                {
+                    "artId": 1011,
+                    "artTitle": "我是测试",
+                    "time": "2016-07-26",
+                    "artContent": "我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是"
+                }
+            ]
+        }
+    ]
+}
+```
+
+#### 
+
+#### 
 
 #### 6.评论模块
 

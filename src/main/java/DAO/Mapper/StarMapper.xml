@@ -19,4 +19,10 @@
         FROM star
         WHERE host = #{0} AND friend = #{1}
     </select>
+
+    <select id="getStars" parameterType="String" resultType="String">
+        SELECT type
+        FROM type
+        WHERE user = #{email}
+    </select>
 </mapper>

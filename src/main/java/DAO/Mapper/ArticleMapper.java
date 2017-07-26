@@ -18,4 +18,8 @@ public interface ArticleMapper {
 
     List<Article> getArticlesByEmail(String email);
 
+    int getArtNum(String email);
+
+    List<Article> getArticlesByEmailType(String email, String type);
+
 }

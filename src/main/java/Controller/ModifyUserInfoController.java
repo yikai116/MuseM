@@ -1,5 +1,8 @@
 package Controller;
 
+import DAO.Mapper.ArticleMapper;
+import DAO.Mapper.StarMapper;
+import DAO.Mapper.TypeMapper;
 import DTO.In.UserModifyInfo;
 import DTO.Out.Error;
 import DTO.Out.Response;
@@ -25,7 +28,12 @@ public class ModifyUserInfoController {
     private HttpServletRequest request;
     @Autowired
     private UserMapper userMapper;
-
+    @Autowired
+    private ArticleMapper articleMapper;
+    @Autowired
+    private TypeMapper typeMapper;
+    @Autowired
+    private StarMapper starMapper;
     /**
      * 修改用户信息
      * @param info 用户传入数据
@@ -49,7 +57,10 @@ public class ModifyUserInfoController {
                 res_info.setUserName(user1.getUserName());
                 res_info.setAvatar(user1.getAvatar());
                 res_info.setIntro(user1.getIntro());
-                res_info.setIsMale(user1.isMale());
+                res_info.setIsMale(user1.isMale()?"男":"女");
+                res_info.setArtNum(articleMapper.getArtNum(userEmail));
+                res_info.setTypeNum(typeMapper.getTypeNum(userEmail));
+                res_info.setStars(starMapper.getStars(userEmail));
                 return new Response<UserInfo>(new Error(1,"修改成功"),res_info);
             }
             else {
@@ -68,7 +79,7 @@ public class ModifyUserInfoController {
      * @return 响应
      */
     @RequestMapping(value = "/getUserInfo", method = RequestMethod.POST)
-    public Response signIn(String email) {
+    public Response getUserInfo(String email) {
         try {
             User user = userMapper.findByEmail(email);
             if (user == null) {
@@ -78,7 +89,37 @@ public class ModifyUserInfoController {
             info.setUserName(user.getUserName());
             info.setAvatar(user.getAvatar());
             info.setIntro(user.getIntro());
-            info.setIsMale(user.isMale());
+            info.setIsMale(user.isMale()?"男":"女");
+            info.setArtNum(articleMapper.getArtNum(email));
+            info.setTypeNum(typeMapper.getTypeNum(email));
+            info.setStars(starMapper.getStars(email));
+            return new Response<UserInfo>(new Error(1, "获取成功"), info);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseHelper.SYSTEM_ERROR;
+        }
+    }
+
+    /**
+     * 得到当前用户信息
+     * @return 响应
+     */
+    @RequestMapping(value = "/getMyInfo", method = RequestMethod.POST)
+    public Response getMyInfo() {
+        try {
+            String email = String.valueOf(request.getAttribute("email"));
+            User user = userMapper.findByEmail(email);
+            if (user == null) {
+                return ResponseHelper.NO_USER_ERROR;
+            }
+            UserInfo info = new UserInfo();
+            info.setUserName(user.getUserName());
+            info.setAvatar(user.getAvatar());
+            info.setIntro(user.getIntro());
+            info.setIsMale(user.isMale()?"男":"女");
+            info.setArtNum(articleMapper.getArtNum(email));
+            info.setTypeNum(typeMapper.getTypeNum(email));
+            info.setStars(starMapper.getStars(email));
             return new Response<UserInfo>(new Error(1, "获取成功"), info);
         } catch (Exception e) {
             e.printStackTrace();

@@ -25,9 +25,21 @@
         DELETE FROM article
         WHERE art_id = #{id};
     </delete>
-    <select id="getArticlesByEmail" resultType="Article">
+    <select id="getArticlesByEmail" parameterType="String" resultType="Article">
         SELECT *
         from article
-        WHERE author = #{email};
+        WHERE author = #{email}
+        ORDER BY create_date DESC ;
+    </select>
+    <select id="getArtNum" parameterType="String" resultType="int">
+        SELECT count(*)
+        FROM article
+        WHERE author = #{email}
+    </select>
+    <select id="getArticlesByEmailType" parameterType="String" resultType="Article">
+        SELECT *
+        FROM article
+        WHERE author = #{0} AND art_type = #{1}
+        ORDER BY create_date DESC
     </select>
 </mapper>

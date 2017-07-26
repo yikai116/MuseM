@@ -12,8 +12,9 @@ public interface TypeMapper {
 
     void delete(Type t);
 
-
     List<Type> getType(String email);
 
     int isExist(Type t);
+
+    int getTypeNum(String email);
 }

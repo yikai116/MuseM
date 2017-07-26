@@ -20,4 +20,9 @@
         select count(*) from type where user = #{user} and type=#{type}
     </select>
 
+    <select id="getTypeNum" parameterType="String" resultType="int">
+        SELECT count(*)
+        FROM type
+        WHERE user = #{email}
+    </select>
 </mapper>
