@@ -46,6 +46,7 @@ POST	http://localhost:8080/MuseM/api/signUp
     },
     "data": {
         "email": "xxx@xx.com",
+        "name": "name",
         "tokenStr": "jdyv37l5tzuwid43"
     }
 }
@@ -78,6 +79,7 @@ POST	http://localhost:8080/MuseM/api/signIn
     },
     "data": {
         "email": "xxx@xx.com",
+        "name": "name",
         "tokenStr": "vwmlbcilfv4wkp9z"
     }
 }
