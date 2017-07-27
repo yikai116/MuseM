@@ -119,11 +119,10 @@ POST	http://localhost:8080/MuseM/api/set/modifyUserInfo
         "avatar": "png",
         "intro": "一只小老虎",
         "isMale": "男",
-        "artNum": 3,
-        "typeNum": 2,
+        "artNum": 4,
+        "typeNum": 3,
         "stars": [
-            "个人日志",
-            "技术博客"
+            "xxxx@xx.com"
         ]
     }
 }
@@ -151,18 +150,17 @@ POST	http://localhost:8080/MuseM/api/set/getUserInfo
 {
     "error": {
         "code": 1,
-        "message": "获取成功"
+        "message": "修改成功"
     },
     "data": {
         "userName": "名字",
         "avatar": "png",
         "intro": "一只小老虎",
         "isMale": "男",
-        "artNum": 3,
-        "typeNum": 2,
+        "artNum": 4,
+        "typeNum": 3,
         "stars": [
-            "个人日志",
-            "技术博客"
+            "xxxx@xx.com"
         ]
     }
 }
@@ -173,7 +171,7 @@ POST	http://localhost:8080/MuseM/api/set/getUserInfo
 API：
 
 ```
-POST	http://localhost:8080/MuseM/api/set/getUserInfo
+POST	http://localhost:8080/MuseM/api/set/getMyInfo
 ```
 
 传入数据示例（直接传入数据）：
@@ -188,18 +186,17 @@ POST	http://localhost:8080/MuseM/api/set/getUserInfo
 {
     "error": {
         "code": 1,
-        "message": "获取成功"
+        "message": "修改成功"
     },
     "data": {
         "userName": "名字",
         "avatar": "png",
         "intro": "一只小老虎",
         "isMale": "男",
-        "artNum": 3,
-        "typeNum": 2,
+        "artNum": 4,
+        "typeNum": 3,
         "stars": [
-            "个人日志",
-            "技术博客"
+            "xxxx@xx.com"
         ]
     }
 }

@@ -21,8 +21,8 @@
     </select>
 
     <select id="getStars" parameterType="String" resultType="String">
-        SELECT type
-        FROM type
-        WHERE user = #{email}
+        SELECT friend
+        FROM star
+        WHERE host = #{email}
     </select>
 </mapper>
