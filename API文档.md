@@ -734,7 +734,7 @@ POST	http://localhost:8080/MuseM/api/set/Article/getMyArtList
 API：
 
 ```
-POST	http://localhost:8080/MuseM/api/set/Article/getArtsByEmail
+POST	http://localhost:8080/MuseM/api/set/Article/getArtListByEmail
 ```
 
 传入数据示例：
