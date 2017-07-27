@@ -4,7 +4,7 @@ import DTO.In.SignInInfo;
 import DTO.In.SignUpInfo;
 import DTO.Out.Error;
 import DTO.Out.Response;
-import DTO.Token;
+import DTO.Out.Token;
 import DAO.Entity.User;
 import DAO.Mapper.UserMapper;
 import Helper.DateHelper;
@@ -47,6 +47,7 @@ public class SignController {
             user.setExpiredDate(DateHelper.getExpiredDate(10));
 
             Token token = new Token(info.getEmail());
+            token.setName(info.getUserName());
             user.setToken(token.getTokenStr());
             user.setExpiredDate(DateHelper.getExpiredDate(10));
             userMapper.insert(user);
@@ -75,6 +76,7 @@ public class SignController {
                 return ResponseHelper.PSW_ERROR;
             } else {
                 Token token = new Token(info.getEmail());
+                token.setName(user.getUserName());
                 //更新token
                 userMapper.updateToken(token.getEmail(), token.getTokenStr(), DateHelper.getExpiredDate(10));
                 return new Response<Token>(new Error(1, "登录成功"), token);

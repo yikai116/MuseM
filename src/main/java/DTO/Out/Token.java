@@ -1,4 +1,4 @@
-package DTO;
+package DTO.Out;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +15,8 @@ import java.util.Random;
 public class Token {
 
     private String email;
-    private String token;
+    private String name;
+    private String tokenStr;
 
     private static String getATokenStr(){
         String base = "abcdefghijklmnopqrstuvwxyz0123456789";
@@ -35,12 +36,12 @@ public class Token {
 
     public Token(){
         this.email = "";
-        this.token = getATokenStr();
+        this.tokenStr = getATokenStr();
     }
 
     public Token(String email){
         this.email = email;
-        this.token = getATokenStr();
+        this.tokenStr = getATokenStr();
     }
 
     public String getEmail() {
@@ -51,12 +52,20 @@ public class Token {
         this.email = email;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getTokenStr() {
-        return token;
+        return tokenStr;
     }
 
     public void setTokenStr(String token) {
-        this.token = token;
+        this.tokenStr = token;
     }
 
 }
