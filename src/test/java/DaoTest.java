@@ -1,7 +1,6 @@
-import DAO.Entity.Article;
-import DAO.Entity.User;
-import DAO.Mapper.ArticleMapper;
-import DAO.Mapper.UserMapper;
+import entity.Article;
+import dao.ArticleMapper;
+import dao.UserMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

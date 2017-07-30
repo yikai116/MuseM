@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dao.CommentMapper">
+    <insert id="insert" parameterType="Comment" keyProperty="cmtId" useGeneratedKeys="true" keyColumn="cmt_id">
+        INSERT INTO comment (cmter, art_id, create_date, cmt_content)
+        VALUES (#{cmter}, #{artId}, #{createDate}, #{cmtContent});
+    </insert>
+    <delete id="delete" parameterType="int">
+        DELETE FROM comment
+        WHERE cmt_id = #{cmtId};
+    </delete>
+    <select id="getAllByArtId" parameterType="int" resultType="Comment">
+        SELECT *
+        from comment
+        WHERE art_id = #{artId}
+    </select>
+    <select id="selectByCmtId" parameterType="int" resultType="Comment">
+        SELECT *
+        FROM comment
+        WHERE cmt_id = #{cmt_id}
+    </select>
+</mapper>
